@@ -1,5 +1,5 @@
 # microservices_FEC
 
-- PaymentService
+- PaymentService: Raphi
 
-- ParticipantService
+- ParticipantService: Carina
