@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Model;
 using WebGUI.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddDbContextFactory<ParticipantContext>(options => options.UseMySql(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(8, 0, 21)))
+);
+    
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
