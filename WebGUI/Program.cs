@@ -1,3 +1,4 @@
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Model;
 using WebGUI.Components;
@@ -12,7 +13,12 @@ builder.Services.AddDbContextFactory<ParticipantContext>(options => options.UseM
     builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(8, 0, 21)))
 );
-    
+builder.Services.AddDbContextFactory<PaymentContext>(options => options.UseMySql(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    new MySqlServerVersion(new Version(8, 0, 21)))
+);
+
+//builder.Services.AddTransient<IRepositoryAsync<Participant>, ParticipantRepo>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
