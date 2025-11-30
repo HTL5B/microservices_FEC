@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Model;
-[Table("Participant")]
+[Table("Participants")]
 public class Participant
 {
     [Key, Column("ParticipantId"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]

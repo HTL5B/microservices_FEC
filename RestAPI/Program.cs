@@ -1,3 +1,4 @@
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Model;
 
@@ -5,6 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFitness",
+        policy => policy
+            .WithOrigins("http://10.0.29.53/6000") // Fitness frontend URL
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 
 builder.Services.AddControllers();
 
@@ -15,12 +26,18 @@ builder.Services.AddDbContextFactory<ParticipantContext>(options => options.UseM
     builder.Configuration.GetConnectionString("DefaultConnection"),
     new MySqlServerVersion(new Version(8, 0, 21)))
 );
+builder.Services.AddDbContextFactory<PaymentContext>(options => options.UseMySql(
+    builder.Configuration.GetConnectionString("AdditionalConnection"),
+    new MySqlServerVersion(new Version(8, 0, 21)))
+);
 
-
+builder.Services.AddTransient<IRepositoryAsync<ParticipantContext,Participant>, ParticipantRepo>();
+builder.Services.AddTransient<IRepositoryAsync<PaymentContext,Payment>, PaymentRepo>();
 
 
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -51,6 +68,10 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
+app.UseCors("AllowFitness");  // add this before app.MapControllers()
+
+
+app.MapControllers();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

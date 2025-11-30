@@ -18,7 +18,10 @@ builder.Services.AddDbContextFactory<PaymentContext>(options => options.UseMySql
     new MySqlServerVersion(new Version(8, 0, 21)))
 );
 
-//builder.Services.AddTransient<IRepositoryAsync<Participant>, ParticipantRepo>();
+builder.Services.AddTransient<IRepositoryAsync<ParticipantContext,Participant>, ParticipantRepo>();
+builder.Services.AddTransient<IRepositoryAsync<PaymentContext,Payment>, PaymentRepo>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -2,7 +2,7 @@
 
 namespace Domain;
 
-public class ParticipantRepo:ARepositoryAsync<ParticipantContext, ParticipantContext>
+public class ParticipantRepo:ARepositoryAsync<ParticipantContext, Participant>
 {
     public ParticipantRepo(ParticipantContext context) : base(context)
     {
